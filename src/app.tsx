@@ -12,9 +12,6 @@ import {
     TodoInput,
     TodoSection,
     TodoList,
-    TodoItem,
-    TodoItemInput,
-    TodoItemLabel,
     TodoFooter,
     TodoCount,
     TodoFilters,
@@ -23,18 +20,42 @@ import {
     Button
 } from "./components/";
 
+import { Item } from "./components/todo/index";
+
 import darkModeIcon from "./images/dark-mode.png";
 
 
 export default function App() {
 
+    interface TODOItem {
+        id: any
+        content: string
+    }
+
     const [theme, setTheme] = useState('light');
+    const [inputItem, setInputItem] = useState('')
+    const [todoItens, setTodoItens] = useState<TODOItem[] | []>([]);
 
     const changeTheme = (t:string) => {
         t = theme === 'dark' ? 'light' : t
         setTheme(t)
     }
 
+    const setItem = (content:string) => {
+        setTodoItens([
+            ...todoItens, {
+                id: new Date().getTime(),
+                content
+            }
+        ])
+    }
+
+    const _handleKeyDown = (e:any) => {
+        if (e.key === 'Enter') {
+            setItem(inputItem)
+            setInputItem('')
+        }
+    }
 
     return (
         <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
@@ -47,23 +68,22 @@ export default function App() {
                         <TodoSelectAll />
                         <TodoInput
                             placeholder={'O que precisa ser feito?'}
+                            value={inputItem}
+                            onChange={e => setInputItem(e.target.value)}
+                            onKeyDown={_handleKeyDown}
                         />
                     </TodoHead>
 
                     <TodoSection>
                         <TodoList>
-                            <TodoItem>
-                                <TodoItemInput type={'checkbox'}/>
-                                <TodoItemLabel>Fazer Todo de Teste</TodoItemLabel>
-                            </TodoItem>
-                            <TodoItem>
-                                <TodoItemInput type={'checkbox'}/>
-                                <TodoItemLabel>Comprar Açucar</TodoItemLabel>
-                            </TodoItem>
-                            <TodoItem>
-                                <TodoItemInput type={'checkbox'}/>
-                                <TodoItemLabel>Tomar café na Ciça</TodoItemLabel>
-                            </TodoItem>
+                            {todoItens.map(i => {
+                                return (
+                                    <Item
+                                        content={i.content}
+                                    />
+                                    )
+                            })}
+
                         </TodoList>
                     </TodoSection>
 

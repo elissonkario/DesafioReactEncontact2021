@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+interface InputProps {
+    value?: any;
+}
+
 export const TodoWrap = styled.div`
   border-radius: 3px;
   padding: 0.5rem 0 0;
@@ -40,7 +44,7 @@ export const TodoSection = styled.section`
   border-top: 1px solid ${props => props.theme.todo.borderContainer};
 
 `
-export const TodoInput = styled.input`
+export const TodoInput = styled.input<InputProps>`
   padding: 10px 0 10px 20px;
   border: none;
   background: transparent;
