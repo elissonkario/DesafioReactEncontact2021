@@ -12,12 +12,14 @@ import {
     TodoInput,
     TodoSection,
     TodoList,
+    TodoWrapItem,
     TodoFooter,
     TodoCount,
     TodoFilters,
     TodoFiltersItem,
     Link,
-    Button
+    Button,
+    ButtonRemove
 } from "./components/";
 
 import { Item } from "./components/todo/index";
@@ -41,6 +43,13 @@ export default function App() {
         setTheme(t)
     }
 
+    const enterItem = (e:any) => {
+        if (e.key === 'Enter') {
+            setItem(inputItem)
+            setInputItem('')
+        }
+    }
+
     const setItem = (content:string) => {
         setTodoItens([
             ...todoItens, {
@@ -50,11 +59,8 @@ export default function App() {
         ])
     }
 
-    const _handleKeyDown = (e:any) => {
-        if (e.key === 'Enter') {
-            setItem(inputItem)
-            setInputItem('')
-        }
+    const removeItem = (v:any) => {
+        setTodoItens(todoItens.filter((i) => i.id != v ))
     }
 
     return (
@@ -65,70 +71,81 @@ export default function App() {
                 <TodoWrap>
 
                     <TodoHead>
-                        <TodoSelectAll />
+
+                        <TodoSelectAll
+                            isVisible={todoItens.length > 0}
+                        />
+
                         <TodoInput
                             placeholder={'O que precisa ser feito?'}
                             value={inputItem}
                             onChange={e => setInputItem(e.target.value)}
-                            onKeyDown={_handleKeyDown}
+                            onKeyDown={enterItem}
                         />
+
                     </TodoHead>
 
                     <TodoSection>
                         <TodoList>
                             {todoItens.map(i => {
                                 return (
-                                    <Item
-                                        content={i.content}
-                                    />
+                                    <TodoWrapItem>
+                                        <Item  content={i.content}  />
+                                        <ButtonRemove
+                                            className={'btn-remove-item'}
+                                            onClick={(v:any) => removeItem(i.id)}
+                                       />
+                                    </TodoWrapItem>
                                     )
                             })}
 
                         </TodoList>
                     </TodoSection>
 
-                    <TodoFooter>
+                    {todoItens.length > 0 &&
+                        <TodoFooter>
 
-                        <TodoCount>2 item left</TodoCount>
+                            <TodoCount>{todoItens.length} item left</TodoCount>
 
-                        <TodoFilters>
-                            <TodoFiltersItem>
-                                <Link
-                                    href={'/'}
-                                    state={'active'}
-                                >
-                                    All
-                                </Link>
-                            </TodoFiltersItem>
-                            <TodoFiltersItem>
-                                <Link
-                                    href={'/'}
-                                >
-                                    Active
-                                </Link>
-                            </TodoFiltersItem>
-                            <TodoFiltersItem>
-                                <Link
-                                    href={'/'}
-                                >
-                                    Completed
-                                </Link>
-                            </TodoFiltersItem>
-                        </TodoFilters>
+                            <TodoFilters>
+                                <TodoFiltersItem>
+                                    <Link
+                                        href={'/'}
+                                        state={'active'}
+                                    >
+                                        All
+                                    </Link>
+                                </TodoFiltersItem>
+                                <TodoFiltersItem>
+                                    <Link
+                                        href={'/'}
+                                    >
+                                        Active
+                                    </Link>
+                                </TodoFiltersItem>
+                                <TodoFiltersItem>
+                                    <Link
+                                        href={'/'}
+                                    >
+                                        Completed
+                                    </Link>
+                                </TodoFiltersItem>
+                            </TodoFilters>
 
-                        <Button
-                            padding={0}
-                            size={'sm'}
-                        >
-                            Clear completed
-                        </Button>
+                            <Button
+                                padding={0}
+                                size={'sm'}
+                            >
+                                Clear completed
+                            </Button>
 
-                        <Button
-                            onClick={() => changeTheme('dark')}
-                        >
-                            <img src={darkModeIcon} alt="Dark"/>
-                        </Button>
-                    </TodoFooter>
+                            <Button
+                                onClick={() => changeTheme('dark')}
+                            >
+                                <img src={darkModeIcon} alt="Dark"/>
+                            </Button>
+                        </TodoFooter>
+                    }
                 </TodoWrap>
             </Container>
         </ThemeProvider>

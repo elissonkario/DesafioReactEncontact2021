@@ -14,6 +14,7 @@ export const TodoWrap = styled.div`
 
 export const TodoHead = styled.head`
   display: flex;
+  padding-bottom: 5px;
   box-shadow: inset 0 -2px 1px rgba(0, 0, 0, 0.03);
 `
 
@@ -25,9 +26,10 @@ export const TodoTitle = styled.h1`
   color: ${props => props.theme.todo.title};
 `
 
-export const TodoSelectAll = styled.span`
+export const TodoSelectAll = styled.span<{ isVisible: boolean }>`
   -webkit-transform: rotate(90deg);
   transform: rotate(90deg);
+  visibility: ${props => props.isVisible ? 'visible' : 'hidden'};
 
   &:after {
     content: '❯';
@@ -76,6 +78,17 @@ export const TodoList = styled.ul`
   list-style: none;
   padding-left: 0;
   margin: 0;
+`
+
+export const TodoWrapItem = styled.div `
+  position: relative;
+  
+  &:hover {
+    .btn-remove-item {
+      display: block;      
+    }
+  }
+  
 `
 
 export const TodoItem = styled.li`

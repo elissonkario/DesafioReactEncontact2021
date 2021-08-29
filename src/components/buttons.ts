@@ -69,3 +69,32 @@ export const Button = styled.button<Props>`
     font-size: 18px;
   `}
 `
+
+export const ButtonRemove = styled.button<Props>`
+  
+  ${Button};  
+  
+  display: none;
+  background: transparent;
+  border: 0;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  font-size: 30px;
+  color: #cc9a9a;
+  transition: color 0.2s ease-out;
+
+  &:hover {
+    color: #af5b5e;
+    cursor: pointer;
+    z-index: 3;    
+  }
+  
+  &::after {
+    content: '×';
+  }
+`
