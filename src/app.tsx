@@ -31,7 +31,8 @@ export default function App() {
 
     interface TODOItem {
         id: any
-        content: string
+        content: string,
+        completed: boolean
     }
 
     const [theme, setTheme] = useState('light');
@@ -54,7 +55,8 @@ export default function App() {
         setTodoItens([
             ...todoItens, {
                 id: new Date().getTime(),
-                content
+                content,
+                completed: false
             }
         ])
     }
@@ -62,6 +64,15 @@ export default function App() {
     const removeItem = (v:any) => {
         setTodoItens(todoItens.filter((i) => i.id != v ))
     }
+
+    const completeItem = (id:any) => {
+        setTodoItens(todoItens.map(i =>
+            i.id === id
+                ? { ...i, completed: !i.completed }
+                : i
+        ));
+
+    };
 
     return (
         <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
@@ -89,16 +100,20 @@ export default function App() {
                         <TodoList>
                             {todoItens.map(i => {
                                 return (
-                                    <TodoWrapItem>
-                                        <Item  content={i.content}  />
+                                    <TodoWrapItem
+                                     className={i.completed ? 'completed' : ''}
+                                    >
+                                        <Item
+                                            item={i}
+                                            complete={completeItem}
+                                        />
                                         <ButtonRemove
                                             className={'btn-remove-item'}
-                                            onClick={(v:any) => removeItem(i.id)}
+                                            onClick={() => removeItem(i.id)}
                                        />
                                     </TodoWrapItem>
                                     )
                             })}
-
                         </TodoList>
                     </TodoSection>
 

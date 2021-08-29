@@ -80,7 +80,7 @@ export const TodoList = styled.ul`
   margin: 0;
 `
 
-export const TodoWrapItem = styled.div `
+export const TodoWrapItem = styled.div<{className?: any}>`
   position: relative;
   
   &:hover {
@@ -89,14 +89,48 @@ export const TodoWrapItem = styled.div `
     }
   }
   
+  &.completed label {
+    color: #d9d9d9;
+    text-decoration: line-through;
+  
 `
 
 export const TodoItem = styled.li`
   display: flex;
   position: relative;
   font-size: 24px;
-  padding: 15px 15px 15px 25px;
+  padding: 15px 15px 15px 0;
+  height: 30px;
   border-bottom: 1px solid ${props => props.theme.todo.border};
+  
+  input {
+    position: absolute;
+    left: -1px;
+    height: 40px;
+    width: 40px;
+    top: 0;
+    bottom: 0;
+    margin-top: auto;
+    margin-bottom: auto;
+    -webkit-appearance: none;
+    appearance: none;
+    
+    + label {
+      background-image: url(data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%22-10%20-18%20100%20135%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2250%22%20fill%3D%22none%22%20stroke%3D%22%23ededed%22%20stroke-width%3D%223%22/%3E%3C/svg%3E);
+      background-repeat: no-repeat;
+      background-position: center left;
+      padding: 0 0 0 60px;
+    }
+
+    &:checked + label {
+      background-image: url(data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%22-10%20-18%20100%20135%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2250%22%20fill%3D%22none%22%20stroke%3D%22%23bddad5%22%20stroke-width%3D%223%22/%3E%3Cpath%20fill%3D%22%235dc2af%22%20d%3D%22M72%2025L42%2071%2027%2056l-4%204%2020%2020%2034-52z%22/%3E%3C/svg%3E);
+    }
+    
+  }
+
+ 
+
+  
 `
 
 export const TodoItemInput = styled.input`
