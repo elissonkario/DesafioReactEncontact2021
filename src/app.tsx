@@ -45,7 +45,7 @@ export default function App() {
     }
 
     const enterItem = (e:any) => {
-        if (e.key === 'Enter') {
+        if (e.key === 'Enter' && inputItem) {
             setItem(inputItem)
             setInputItem('')
         }
@@ -73,6 +73,10 @@ export default function App() {
         ));
 
     };
+
+    const removeCompletedItems = () => {
+        setTodoItens(todoItens.filter((i) => !i.completed ))
+    }
 
     return (
         <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
@@ -120,7 +124,7 @@ export default function App() {
                     {todoItens.length > 0 &&
                         <TodoFooter>
 
-                            <TodoCount>{todoItens.length} item left</TodoCount>
+                            <TodoCount>{todoItens.filter(f => !f.completed).length} item left</TodoCount>
 
                             <TodoFilters>
                                 <TodoFiltersItem>
@@ -147,12 +151,15 @@ export default function App() {
                                 </TodoFiltersItem>
                             </TodoFilters>
 
-                            <Button
-                                padding={0}
-                                size={'sm'}
-                            >
-                                Clear completed
-                            </Button>
+                            {todoItens.some(i => i.completed) &&
+                                <Button
+                                    padding={0}
+                                    size={'sm'}
+                                    onClick={() => removeCompletedItems()}
+                                >
+                                    Clear completed
+                                </Button>
+                            }
 
                             <Button
                                 onClick={() => changeTheme('dark')}

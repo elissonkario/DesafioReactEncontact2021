@@ -7,6 +7,7 @@ export function Item(props: any) {
         <TodoItem>
             <TodoItemInput
                 type={'checkbox'}
+                checked={props.item.completed || false}
                 onClick={() => props.complete(props.item.id)}
             />
             <TodoItemLabel>{props.item.content}</TodoItemLabel>
