@@ -7,10 +7,10 @@ export function Item(props: any) {
         <TodoItem>
             <TodoItemInput
                 type={'checkbox'}
-                checked={props.item.completed || false}
+                checked={props.item.isDone || false}
                 onClick={() => props.complete(props.item.id)}
             />
-            <TodoItemLabel>{props.item.content}</TodoItemLabel>
+            <TodoItemLabel>{props.item.title}</TodoItemLabel>
         </TodoItem>
     )
 }
