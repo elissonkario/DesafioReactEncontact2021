@@ -6,12 +6,16 @@ export const lightTheme = {
     todo: {
         title: 'rgba(175, 47, 47, 0.15)',
         container: 'rgba(255, 255, 255, 1)',
+        input: '#a1a1a1',
         placeHolder: '#e6e6e9',
+        item: () => lightTheme.text,
+        itemCompleted: '#d9d9d9',
         border: '#ededed',
         borderContainer: '#e6e6e6',
         borderLink: '#e7e7e7',
         borderLinkActive: '#ccc',
-        shadowFooter: '#f6f6f6'
+        shadowFooter: '#f6f6f6',
+        checkbox: 1
     }
 }
 
@@ -23,11 +27,15 @@ export const darkTheme = {
     todo: {
         title: 'rgba(97, 97, 97, 0.8)',
         container: 'rgba(0, 0, 0, 0.17)',
+        input: '#b4b4b4',
         placeHolder: '#4d4d4d',
+        item: '#d9d9d9',
+        itemCompleted: '#6e6e6e',
         border: '#393939',
         borderContainer: '#434343',
         borderLink: '#393939',
         borderLinkActive: '#494949',
-        shadowFooter: '#292929'
+        shadowFooter: '#292929',
+        checkbox: 0.5
     }
 }

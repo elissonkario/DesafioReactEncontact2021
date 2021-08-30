@@ -1,28 +1,29 @@
 import React, {useState} from "react";
-import { ThemeProvider } from "styled-components";
+import {ThemeProvider} from "styled-components";
+
 import {
-    WrapContainer,
+    Button,
+    ButtonRemove,
     Container,
-    lightTheme,
     darkTheme,
-    TodoWrap,
-    TodoHead,
-    TodoTitle,
-    TodoSelectAll,
-    TodoInput,
-    TodoSection,
-    TodoList,
-    TodoWrapItem,
-    TodoFooter,
+    lightTheme,
+    LinkButton,
     TodoCount,
     TodoFilters,
     TodoFiltersItem,
-    Link,
-    Button,
-    ButtonRemove
+    TodoFooter,
+    TodoHead,
+    TodoInput,
+    TodoList,
+    TodoSection,
+    TodoSelectAll,
+    TodoTitle,
+    TodoWrap,
+    TodoWrapItem,
+    WrapContainer
 } from "./components/";
 
-import { Item } from "./components/todo/index";
+import {Item} from "./components/todo/index";
 
 import darkModeIcon from "./images/dark-mode.png";
 
@@ -38,6 +39,7 @@ export default function App() {
     const [theme, setTheme] = useState('light');
     const [inputItem, setInputItem] = useState('')
     const [todoItens, setTodoItens] = useState<TODOItem[] | []>([]);
+    const [todoFilter, setTodoFilter] = useState('/');
 
     const changeTheme = (t:string) => {
         t = theme === 'dark' ? 'light' : t
@@ -90,13 +92,47 @@ export default function App() {
         }
     }
 
+    const changeRoute = (r:string) => {
+        window.location.hash = r
+        setTodoFilter(r)
+        showItens(window.location.hash)
+    }
+
+    const showItens = (rash:string) => {
+        let data = todoItens;
+        let filter;
+
+        switch (rash) {
+            case '#/active':
+                filter = data.filter((i) => !i.completed )
+                break
+            case '#/completed':
+                filter = data.filter((i) => i.completed )
+                break
+            default:
+                filter = data
+        }
+
+        return filter
+    }
+
+    const activeBtnFilter = (r:string) => {
+        let slug;
+        if (todoFilter === '/' && r === 'home') {
+            slug = 'active'
+        } else {
+            slug = todoFilter.includes(r) ? 'active' : ''
+        }
+       return slug
+    }
+
+
     return (
         <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
             <WrapContainer/>
             <Container>
                 <TodoTitle>todos</TodoTitle>
                 <TodoWrap>
-
                     <TodoHead>
 
                         <TodoSelectAll
@@ -116,7 +152,7 @@ export default function App() {
 
                     <TodoSection>
                         <TodoList>
-                            {todoItens.map(i => {
+                            {showItens(window.location.hash).map(i => {
                                 return (
                                     <TodoWrapItem
                                      className={i.completed ? 'completed' : ''}
@@ -142,26 +178,28 @@ export default function App() {
 
                             <TodoFilters>
                                 <TodoFiltersItem>
-                                    <Link
-                                        href={'/'}
-                                        state={'active'}
+                                    <LinkButton
+                                        onClick={() => changeRoute('/')}
+                                        state={activeBtnFilter('home')}
                                     >
                                         All
-                                    </Link>
+                                    </LinkButton>
                                 </TodoFiltersItem>
                                 <TodoFiltersItem>
-                                    <Link
-                                        href={'/'}
+                                    <LinkButton
+                                        onClick={() => changeRoute('#/active')}
+                                        state={activeBtnFilter('active')}
                                     >
                                         Active
-                                    </Link>
+                                    </LinkButton>
                                 </TodoFiltersItem>
                                 <TodoFiltersItem>
-                                    <Link
-                                        href={'/'}
+                                    <LinkButton
+                                        onClick={() => changeRoute('#/completed')}
+                                        state={activeBtnFilter('completed')}
                                     >
                                         Completed
-                                    </Link>
+                                    </LinkButton>
                                 </TodoFiltersItem>
                             </TodoFilters>
 

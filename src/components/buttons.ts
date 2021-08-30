@@ -38,9 +38,10 @@ const styleButton = css<Props>`
   `}
 `
 
-export const Link = styled.a<Props>`
+export const LinkButton = styled.a<Props>`
   ${styleButton}
   &:hover {
+    cursor: pointer;
     border: 1px solid ${props => props.theme.todo.borderLink};
   }
 `
