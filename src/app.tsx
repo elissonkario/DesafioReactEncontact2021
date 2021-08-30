@@ -46,7 +46,9 @@ export default function App() {
     const [todoItens, setTodoItens] = useState<TODOItem[] | []>([]);
     const [todoFilter, setTodoFilter] = useState('/');
     const [loading, setLoading] = useState(false);
-    const [lang, setLang] = useState('ptBR')
+    const [lang, setLang] = useState('ptBR');
+    const [editing, setEditing] = useState({state: false, id: 0});
+
 
     const changeTheme = (t:string) => {
         t = theme === 'dark' ? 'light' : t
@@ -73,6 +75,20 @@ export default function App() {
                 isDone: false
             }
         ])
+    }
+
+    const editItem = (id:any) => {
+        setEditing({
+            state: true,
+            id
+        })
+    }
+
+    const closeEdit = () => {
+        setEditing({
+            state: false,
+            id: 0
+        })
     }
 
     const removeItem = (v:any) => {
@@ -166,8 +182,13 @@ export default function App() {
 
     }, [])
 
+    useEffect(() => {
+        document.addEventListener('click',  closeEdit );
+    }, [])
+
     return (
-        <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
+        <ThemeProvider
+            theme={theme === 'light' ? lightTheme : darkTheme}>
             <WrapContainer/>
             <Container>
                 {loading ? <Loader/> :
@@ -201,7 +222,10 @@ export default function App() {
                                                 <Item
                                                     item={i}
                                                     complete={completeItem}
+                                                    edit={editItem}
+                                                    editing={editing}
                                                 />
+
                                                 <ButtonRemove
                                                     className={'btn-remove-item'}
                                                     onClick={() => removeItem(i.id)}
