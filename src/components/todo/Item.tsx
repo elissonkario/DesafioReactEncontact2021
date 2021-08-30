@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import {TodoItem, TodoItemInput, TodoItemLabel} from "../todo";
 
 export function Item(props: any) {
@@ -11,15 +11,18 @@ export function Item(props: any) {
 
     const enterItem = (e:any) => {
         if (e.key === 'Enter' && editItem) {
-            props.newValue(editItem)
+            props.enterValue(editItem)
         }
     }
 
     const handleEdit = (e:object) => {
         // @ts-ignore
-        setEditItem({id: props.item.id, title: e.target.value, isDone: props.item.isDone})
-    }
+        let item = {id: props.item.id, title: e.target.value, isDone: props.item.isDone}
 
+        setEditItem(item)
+        props.storeEdit(item)
+
+    }
 
     return (
         <TodoItem

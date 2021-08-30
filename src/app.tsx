@@ -26,7 +26,8 @@ import {
     WrapContainer,
     Loader,
     Footer,
-    FlagIcon
+    FlagIcon,
+    MaskEdit
 } from "./components/";
 
 import {Item, TODOItem} from "./components/todo/index";
@@ -45,10 +46,10 @@ export default function App() {
     const [inputItem, setInputItem] = useState('')
     const [todoItens, setTodoItens] = useState<TODOItem[] | []>([]);
     const [todoFilter, setTodoFilter] = useState('/');
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [lang, setLang] = useState('ptBR');
     const [editing, setEditing] = useState({state: false, id: null });
-
+    const [storeEditValue, setStoreEditValue] = useState({});
 
     const changeTheme = (t:string) => {
         t = theme === 'dark' ? 'light' : t
@@ -84,6 +85,10 @@ export default function App() {
         })
     }
 
+    const storeEdit = (item:any) => {
+         setStoreEditValue(item)
+    }
+
     const saveEditItem = (item:any) => {
         setTodoItens(todoItens.map(i =>
              i.id === item.id
@@ -95,6 +100,11 @@ export default function App() {
             removeItem(item.id)
         }
 
+        closeEdit()
+    }
+
+    const outSiteEdit = () => {
+        saveEditItem(storeEditValue)
         closeEdit()
     }
 
@@ -188,27 +198,20 @@ export default function App() {
         }
 
         fetchData().then(v => {
-            setTimeout(() => {
             setLoading(false)
             setTodoItens(v?.data)
-            }, 1000)
         })
 
-    }, [])
-
-    useEffect(() => {
-       // document.addEventListener('click',  closeEdit );
     }, [])
 
     return (
         <ThemeProvider
             theme={theme === 'light' ? lightTheme : darkTheme}>
             <WrapContainer/>
+            {loading ? <Loader/> :
             <Container>
-                {loading ? <Loader/> :
                     <div>
                         <TodoTitle><Translate value="application.title"/></TodoTitle>
-
                         <TodoWrap>
                             <TodoHead>
                                 <TodoSelectAll
@@ -221,6 +224,7 @@ export default function App() {
                                     placeholder={translate("application.todoInputPlaceHolder")}
                                     value={inputItem}
                                     onChange={e => setInputItem(e.target.value)}
+                                    onFocus={outSiteEdit}
                                     onKeyDown={enterItem}
                                 />
 
@@ -228,7 +232,7 @@ export default function App() {
 
                             <TodoSection>
                                 <TodoList>
-                                    {showItens(window.location.hash).map((i, index) => {
+                                    {showItens(window.location.hash).map(i => {
                                         return (
                                             <TodoWrapItem
                                                 className={i.isDone ? 'completed' : ''}
@@ -240,7 +244,8 @@ export default function App() {
                                                     complete={completeItem}
                                                     edit={editItem}
                                                     editing={editing}
-                                                    newValue={saveEditItem}
+                                                    storeEdit={storeEdit}
+                                                    enterValue={saveEditItem}
                                                 />
 
                                                 <ButtonRemove
@@ -250,6 +255,9 @@ export default function App() {
                                             </TodoWrapItem>
                                         )
                                     })}
+                                    {editing.state &&
+                                        <MaskEdit onClick={() => outSiteEdit()}/>
+                                    }
                                 </TodoList>
                             </TodoSection>
 
@@ -327,8 +335,9 @@ export default function App() {
                                 </Button>
                     </Footer>
                     </div>
-                }
+                <MaskEdit onClick={() => outSiteEdit()}/>
             </Container>
+        }
         </ThemeProvider>
     );
 }

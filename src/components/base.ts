@@ -30,6 +30,8 @@ export const Container = styled.div`
 export const Footer = styled.footer`
   margin-top: 30px;
   text-align: center;
+  z-index: 10;
+  position: relative;
 `
 
 export const FlagIcon = styled.img<{state: string}>`
@@ -39,4 +41,12 @@ export const FlagIcon = styled.img<{state: string}>`
   ${props => props.state === 'active' && css`
     opacity: 1;
   `}
+`
+
+export const MaskEdit = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
 `

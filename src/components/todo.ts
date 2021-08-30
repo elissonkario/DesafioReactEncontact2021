@@ -18,6 +18,8 @@ export const TodoHead = styled.head`
   display: flex;
   padding-bottom: 5px;
   box-shadow: inset 0 -2px 1px rgba(0, 0, 0, 0.03);
+  z-index: 10;
+  position: relative;
 `
 
 export const TodoTitle = styled.h1`
@@ -124,6 +126,7 @@ export const TodoItem = styled.li`
     margin-bottom: auto;
     -webkit-appearance: none;
     appearance: none;
+    z-index: 10;
     
     + label {
       background-image: url(data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%22-10%20-18%20100%20135%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2250%22%20fill%3D%22none%22%20stroke%3D%22%23ededed%22%20stroke-width%3D%223%22/%3E%3C/svg%3E);
@@ -132,6 +135,10 @@ export const TodoItem = styled.li`
       background-position: center left;
       padding: 0 0 0 60px;     
       width: 100%;
+      height: 59px;
+      position: absolute;
+      top: 0;
+      line-height: 58px;
     }
 
     &:checked + label {
