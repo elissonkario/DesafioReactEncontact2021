@@ -26,6 +26,7 @@ import {
 import {Item} from "./components/todo/index";
 
 import darkModeIcon from "./images/dark-mode.png";
+import completedAudio from "./media/completed.mp3";
 
 
 export default function App() {
@@ -46,6 +47,11 @@ export default function App() {
         setTheme(t)
     }
 
+    const soundCompleted = () => {
+        let sound = new Audio(completedAudio);
+        sound.play();
+    }
+
     const enterItem = (e:any) => {
         if (e.key === 'Enter' && inputItem) {
             setItem(inputItem)
@@ -64,10 +70,15 @@ export default function App() {
     }
 
     const removeItem = (v:any) => {
-        setTodoItens(todoItens.filter((i) => i.id != v ))
+        setTodoItens(todoItens.filter((i) => i.id !== v ))
     }
 
     const completeItem = (id:any) => {
+
+        if (!todoItens.filter(f => f.id === id && f.completed).length) {
+            soundCompleted()
+        }
+
         setTodoItens(todoItens.map(i =>
             i.id === id
                 ? { ...i, completed: !i.completed }

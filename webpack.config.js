@@ -29,6 +29,13 @@ module.exports = {
                 test: /\.(jpg|jpeg|png|gif|mp3|svg)$/,
                 use: ["file-loader"],
             },
+            {
+                test: /\.mp3$/,
+                loader: 'file-loader',
+                query: {
+                    name: 'static/media/[name].[hash:8].[ext]'
+                }
+            }
         ],
     },
     plugins: [
