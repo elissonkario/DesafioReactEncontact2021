@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useReducer, useState} from "react";
 import { setLocale, Translate, translate } from 'react-i18nify';
 import "./i18n/dictionary"
 
@@ -47,7 +47,7 @@ export default function App() {
     const [todoFilter, setTodoFilter] = useState('/');
     const [loading, setLoading] = useState(false);
     const [lang, setLang] = useState('ptBR');
-    const [editing, setEditing] = useState({state: false, id: 0});
+    const [editing, setEditing] = useState({state: false, id: null });
 
 
     const changeTheme = (t:string) => {
@@ -84,10 +84,24 @@ export default function App() {
         })
     }
 
+    const saveEditItem = (item:any) => {
+        setTodoItens(todoItens.map(i =>
+             i.id === item.id
+                ? { ...i, title: item.title }
+                : i
+        ));
+
+        if (!item.title) {
+            removeItem(item.id)
+        }
+
+        closeEdit()
+    }
+
     const closeEdit = () => {
         setEditing({
             state: false,
-            id: 0
+            id: null
         })
     }
 
@@ -183,7 +197,7 @@ export default function App() {
     }, [])
 
     useEffect(() => {
-        document.addEventListener('click',  closeEdit );
+       // document.addEventListener('click',  closeEdit );
     }, [])
 
     return (
@@ -214,16 +228,19 @@ export default function App() {
 
                             <TodoSection>
                                 <TodoList>
-                                    {showItens(window.location.hash).map(i => {
+                                    {showItens(window.location.hash).map((i, index) => {
                                         return (
                                             <TodoWrapItem
                                                 className={i.isDone ? 'completed' : ''}
                                             >
                                                 <Item
+                                                    key={i.id}
                                                     item={i}
+                                                    todoItens={todoItens}
                                                     complete={completeItem}
                                                     edit={editItem}
                                                     editing={editing}
+                                                    newValue={saveEditItem}
                                                 />
 
                                                 <ButtonRemove
