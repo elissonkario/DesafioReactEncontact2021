@@ -6,7 +6,7 @@ export const lightTheme = {
     todo: {
         title: 'rgba(175, 47, 47, 0.15)',
         container: 'rgba(255, 255, 255, 1)',
-        input: '#a1a1a1',
+        input: () => lightTheme.text,
         placeHolder: '#e6e6e9',
         item: () => lightTheme.text,
         itemCompleted: '#d9d9d9',
