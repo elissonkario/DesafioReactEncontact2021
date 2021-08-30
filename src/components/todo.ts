@@ -182,10 +182,18 @@ export const TodoFooter = styled.footer`
     0 16px 0 -6px  ${props => props.theme.todo.shadowFooter}, 
     0 17px 2px -6px rgba(0, 0, 0, 0.2)
   }
+
+  @media only screen and (max-width: 762px) {
+    flex-wrap: wrap;
+  }  
 `
 
 export const TodoCount = styled.span`
   align-self: center;
+  
+  @media only screen and (max-width: 762px) {
+    margin-bottom: 20px;
+  }
 `
 
 export const TodoFilters = styled.ul`
@@ -194,6 +202,10 @@ export const TodoFilters = styled.ul`
   display: inline-block;
   padding: 0;
   margin: 0;
+  
+  @media only screen and (max-width: 762px) {
+    margin-bottom: 20px;
+  }
 `
 
 export const TodoFiltersItem = styled.li`
