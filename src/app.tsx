@@ -246,6 +246,7 @@ export default function App() {
                                                     editing={editing}
                                                     storeEdit={storeEdit}
                                                     enterValue={saveEditItem}
+                                                    outSiteEdit={outSiteEdit}
                                                 />
 
                                                 <ButtonRemove
@@ -255,9 +256,9 @@ export default function App() {
                                             </TodoWrapItem>
                                         )
                                     })}
-                                    {editing.state &&
+                                    {/*{editing.state &&
                                         <MaskEdit onClick={() => outSiteEdit()}/>
-                                    }
+                                    }*/}
                                 </TodoList>
                             </TodoSection>
 

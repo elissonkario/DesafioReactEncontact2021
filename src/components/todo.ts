@@ -164,12 +164,13 @@ export const TodoItemInput = styled.input`
     box-shadow: inset 0 -1px 5px 0 rgb(0 0 0 / 20%);
     box-sizing: border-box;
     font-size: 24px;
-    color: #4d4d4d;
+    color: ${props => props.theme.todo.item};
     z-index: 15;
     height: 61px;
     top: -2px;
     padding-left: 12px;
     display: none;
+    background: ${props => props.theme.todo.inputEdit};
     
     &:focus-visible {
       outline: 0

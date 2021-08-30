@@ -15,7 +15,8 @@ export const lightTheme = {
         borderLink: '#e7e7e7',
         borderLinkActive: '#ccc',
         shadowFooter: '#f6f6f6',
-        checkbox: 1
+        checkbox: 1,
+        inputEdit: '#fff'
     }
 }
 
@@ -36,6 +37,7 @@ export const darkTheme = {
         borderLink: '#393939',
         borderLinkActive: '#494949',
         shadowFooter: '#292929',
-        checkbox: 0.5
+        checkbox: 0.5,
+        inputEdit: '#29282a'
     }
 }

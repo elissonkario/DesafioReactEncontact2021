@@ -24,6 +24,10 @@ export function Item(props: any) {
 
     }
 
+    const outSiteEdit = () => {
+        return props.outSiteEdit()
+    }
+
     return (
         <TodoItem
             className={checkEdit(props) ? 'editing' : ''}
@@ -35,6 +39,7 @@ export function Item(props: any) {
             />
 
             <TodoItemLabel
+                onClick={() => outSiteEdit()}
                 onDoubleClick={() => props.edit(props.item.id)}
             >{props.item.title}</TodoItemLabel>
 
