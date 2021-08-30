@@ -1,4 +1,4 @@
-import styled, {createGlobalStyle} from 'styled-components';
+import styled, {createGlobalStyle, css} from 'styled-components';
 
 export const WrapContainer = createGlobalStyle<any>`
   body {
@@ -26,3 +26,17 @@ export const Container = styled.div`
   }
 
 `;
+
+export const Footer = styled.footer`
+  margin-top: 30px;
+  text-align: center;
+`
+
+export const FlagIcon = styled.img<{state: string}>`
+  width: 24px;
+  opacity: 0.4;
+
+  ${props => props.state === 'active' && css`
+    opacity: 1;
+  `}
+`

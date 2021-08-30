@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 interface InputProps {
     value?: any;
+    placeholder?: any
 }
 
 
@@ -31,6 +32,7 @@ export const TodoSelectAll = styled.span<{ isVisible?: boolean, className?: any 
   -webkit-transform: rotate(90deg);
   transform: rotate(90deg);
   visibility: ${props => props.isVisible ? 'visible' : 'hidden'};
+  margin-left: 4px;
   
   &.all-items-completed {
     &:after {
@@ -107,7 +109,7 @@ export const TodoItem = styled.li`
   display: flex;
   position: relative;
   font-size: 24px;
-  padding: 15px 15px 15px 0;
+  padding: 15px 15px 15px 15px;
   height: 30px;
   border-bottom: 1px solid ${props => props.theme.todo.border};
   opacity: ${props => props.theme.todo.checkbox};

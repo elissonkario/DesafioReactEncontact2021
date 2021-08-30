@@ -1,4 +1,7 @@
 import React, {useEffect, useState} from "react";
+import { setLocale, Translate, translate } from 'react-i18nify';
+import "./i18n/dictionary"
+
 import {ThemeProvider} from "styled-components";
 
 import {
@@ -21,15 +24,19 @@ import {
     TodoWrap,
     TodoWrapItem,
     WrapContainer,
-    Loader
+    Loader,
+    Footer,
+    FlagIcon
 } from "./components/";
 
 import {Item, TODOItem} from "./components/todo/index";
 
 import { getTodos } from "./services/http/todo";
 
-
 import darkModeIcon from "./assets/images/dark-mode.png";
+import flagBrazil from "./assets/images/brazil.png";
+import flagEua from "./assets/images/united-states.png";
+
 import completedAudio from "./assets/media/completed.mp3";
 
 export default function App() {
@@ -38,7 +45,8 @@ export default function App() {
     const [inputItem, setInputItem] = useState('')
     const [todoItens, setTodoItens] = useState<TODOItem[] | []>([]);
     const [todoFilter, setTodoFilter] = useState('/');
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
+    const [lang, setLang] = useState('ptBR')
 
     const changeTheme = (t:string) => {
         t = theme === 'dark' ? 'light' : t
@@ -135,7 +143,14 @@ export default function App() {
        return slug
     }
 
+    const changeLocale = (l:string) => {
+        setLocale(l || 'ptBR');
+        setLang(l || 'ptBR');
+    }
+
     useEffect(() => {
+
+        setLocale('ptBR');
 
         async function fetchData() {
             setLoading(true)
@@ -143,105 +158,134 @@ export default function App() {
         }
 
         fetchData().then(v => {
+            setTimeout(() => {
             setLoading(false)
             setTodoItens(v?.data)
+            }, 1000)
         })
+
     }, [])
 
     return (
         <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
             <WrapContainer/>
             <Container>
-                <TodoTitle>todos</TodoTitle>
                 {loading ? <Loader/> :
-                    <TodoWrap>
-                        <TodoHead>
-                            <TodoSelectAll
-                                className={todoItens.filter(f => !f.isDone).length === 0 ? 'all-items-completed' : ''}
-                                isVisible={todoItens.length > 0}
-                                onClick={() => completedAllItems()}
-                            />
+                    <div>
+                        <TodoTitle><Translate value="application.title"/></TodoTitle>
 
-                            <TodoInput
-                                placeholder={'O que precisa ser feito?'}
-                                value={inputItem}
-                                onChange={e => setInputItem(e.target.value)}
-                                onKeyDown={enterItem}
-                            />
+                        <TodoWrap>
+                            <TodoHead>
+                                <TodoSelectAll
+                                    className={todoItens.filter(f => !f.isDone).length === 0 ? 'all-items-completed' : ''}
+                                    isVisible={todoItens.length > 0}
+                                    onClick={() => completedAllItems()}
+                                />
 
-                        </TodoHead>
+                                <TodoInput
+                                    placeholder={translate("application.todoInputPlaceHolder")}
+                                    value={inputItem}
+                                    onChange={e => setInputItem(e.target.value)}
+                                    onKeyDown={enterItem}
+                                />
 
-                        <TodoSection>
-                            <TodoList>
-                                {showItens(window.location.hash).map(i => {
-                                    return (
-                                        <TodoWrapItem
-                                            className={i.isDone ? 'completed' : ''}
+                            </TodoHead>
+
+                            <TodoSection>
+                                <TodoList>
+                                    {showItens(window.location.hash).map(i => {
+                                        return (
+                                            <TodoWrapItem
+                                                className={i.isDone ? 'completed' : ''}
+                                            >
+                                                <Item
+                                                    item={i}
+                                                    complete={completeItem}
+                                                />
+                                                <ButtonRemove
+                                                    className={'btn-remove-item'}
+                                                    onClick={() => removeItem(i.id)}
+                                                />
+                                            </TodoWrapItem>
+                                        )
+                                    })}
+                                </TodoList>
+                            </TodoSection>
+
+                            {todoItens.length > 0 &&
+                                <TodoFooter>
+
+                                    <TodoCount>{todoItens.filter(f => !f.isDone).length}{' '}
+                                         <Translate
+                                             value="application.itemLeft"
+                                             count={todoItens.filter(f => !f.isDone).length > 1 ? 2 : 0}/></TodoCount>
+
+                                    <TodoFilters>
+                                        <TodoFiltersItem>
+                                            <LinkButton
+                                                onClick={() => changeRoute('/')}
+                                                state={activeBtnFilter('home')}
+                                            >
+                                                <Translate value="application.all"/>
+                                            </LinkButton>
+                                        </TodoFiltersItem>
+                                        <TodoFiltersItem>
+                                            <LinkButton
+                                                onClick={() => changeRoute('#/active')}
+                                                state={activeBtnFilter('active')}
+                                            >
+                                                <Translate value="application.active"/>
+                                            </LinkButton>
+                                        </TodoFiltersItem>
+                                        <TodoFiltersItem>
+                                            <LinkButton
+                                                onClick={() => changeRoute('#/completed')}
+                                                state={activeBtnFilter('completed')}
+                                            >
+                                                <Translate value="application.completed"/>
+                                            </LinkButton>
+                                        </TodoFiltersItem>
+                                    </TodoFilters>
+
+                                    {todoItens.some(i => i.isDone) &&
+                                        <Button
+                                            padding={0}
+                                            size={'sm'}
+                                            onClick={() => removeCompletedItems()}
                                         >
-                                            <Item
-                                                item={i}
-                                                complete={completeItem}
-                                            />
-                                            <ButtonRemove
-                                                className={'btn-remove-item'}
-                                                onClick={() => removeItem(i.id)}
-                                            />
-                                        </TodoWrapItem>
-                                    )
-                                })}
-                            </TodoList>
-                        </TodoSection>
+                                            <Translate value="application.clearCompleted"/>
+                                        </Button>
+                                    }
 
-                        {todoItens.length > 0 &&
-                            <TodoFooter>
-
-                                <TodoCount>{todoItens.filter(f => !f.isDone).length} item left</TodoCount>
-
-                                <TodoFilters>
-                                    <TodoFiltersItem>
-                                        <LinkButton
-                                            onClick={() => changeRoute('/')}
-                                            state={activeBtnFilter('home')}
-                                        >
-                                            All
-                                        </LinkButton>
-                                    </TodoFiltersItem>
-                                    <TodoFiltersItem>
-                                        <LinkButton
-                                            onClick={() => changeRoute('#/active')}
-                                            state={activeBtnFilter('active')}
-                                        >
-                                            Active
-                                        </LinkButton>
-                                    </TodoFiltersItem>
-                                    <TodoFiltersItem>
-                                        <LinkButton
-                                            onClick={() => changeRoute('#/completed')}
-                                            state={activeBtnFilter('completed')}
-                                        >
-                                            Completed
-                                        </LinkButton>
-                                    </TodoFiltersItem>
-                                </TodoFilters>
-
-                                {todoItens.some(i => i.isDone) &&
                                     <Button
-                                        padding={0}
-                                        size={'sm'}
-                                        onClick={() => removeCompletedItems()}
+                                        title={translate("application.darkMode")}
+                                        onClick={() => changeTheme('dark')}
                                     >
-                                        Clear completed
+                                        <img src={darkModeIcon} alt="Dark"/>
                                     </Button>
-                                }
+                                </TodoFooter>
+                            }
+                        </TodoWrap>
 
+                        <Footer>
                                 <Button
-                                    onClick={() => changeTheme('dark')}
+                                    onClick={() => changeLocale('ptBR')}
                                 >
-                                    <img src={darkModeIcon} alt="Dark"/>
+                                    <FlagIcon
+                                        src={flagBrazil}
+                                        state={lang === 'ptBR' ? 'active' : '' }
+                                    />
                                 </Button>
-                            </TodoFooter>
-                        }
-                    </TodoWrap>
+                                <Button
+                                    onClick={() => changeLocale('en')}
+                                >
+                                    <FlagIcon
+                                        src={flagEua}
+                                        state={lang === 'en' ? 'active' : '' }
+                                    />
+                                </Button>
+                    </Footer>
+                    </div>
                 }
             </Container>
         </ThemeProvider>
