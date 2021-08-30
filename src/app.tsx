@@ -27,7 +27,9 @@ import {
     Loader,
     Footer,
     FlagIcon,
-    MaskEdit
+    MaskEdit,
+    Background,
+    Menu
 } from "./components/";
 
 import {Item, TODOItem} from "./components/todo/index";
@@ -37,6 +39,8 @@ import { getTodos } from "./services/http/todo";
 import darkModeIcon from "./assets/images/dark-mode.png";
 import flagBrazil from "./assets/images/brazil.png";
 import flagEua from "./assets/images/united-states.png";
+import menu from "./assets/images/menu.png";
+import background from "./components/background";
 
 import completedAudio from "./assets/media/completed.mp3";
 
@@ -50,6 +54,8 @@ export default function App() {
     const [lang, setLang] = useState('ptBR');
     const [editing, setEditing] = useState({state: false, id: null });
     const [storeEditValue, setStoreEditValue] = useState({});
+    const [menuOpen, setMenuOpen] = useState(false)
+    const [wallpaper, setWallpaper] = useState<any>(null);
 
     const changeTheme = (t:string) => {
         t = theme === 'dark' ? 'light' : t
@@ -188,6 +194,11 @@ export default function App() {
         setLang(l || 'ptBR');
     }
 
+    const handleMenu = () => {
+        setMenuOpen(!menuOpen)
+    }
+
+
     useEffect(() => {
 
         setLocale('ptBR');
@@ -204,12 +215,13 @@ export default function App() {
 
     }, [])
 
+    // @ts-ignore
     return (
         <ThemeProvider
             theme={theme === 'light' ? lightTheme : darkTheme}>
             <WrapContainer/>
             {loading ? <Loader/> :
-            <Container>
+            <Container className={menuOpen ? 'menu-open' : ''}>
                     <div>
                         <TodoTitle><Translate value="application.title"/></TodoTitle>
                         <TodoWrap>
@@ -256,9 +268,6 @@ export default function App() {
                                             </TodoWrapItem>
                                         )
                                     })}
-                                    {/*{editing.state &&
-                                        <MaskEdit onClick={() => outSiteEdit()}/>
-                                    }*/}
                                 </TodoList>
                             </TodoSection>
 
@@ -318,25 +327,55 @@ export default function App() {
                         </TodoWrap>
 
                         <Footer>
-                                <Button
-                                    onClick={() => changeLocale('ptBR')}
-                                >
-                                    <FlagIcon
-                                        src={flagBrazil}
-                                        state={lang === 'ptBR' ? 'active' : '' }
-                                    />
-                                </Button>
-                                <Button
-                                    onClick={() => changeLocale('en')}
-                                >
-                                    <FlagIcon
-                                        src={flagEua}
-                                        state={lang === 'en' ? 'active' : '' }
-                                    />
-                                </Button>
+                            <ul>
+                                <li><Translate value="application.instruction_1"/></li>
+                                <li><Translate value="application.createdBy" name={'Élisson Kario'}/> </li>
+                            </ul>
+
+                            <Button
+                                onClick={() => changeLocale('ptBR')}
+                            >
+                                <FlagIcon
+                                    src={flagBrazil}
+                                    state={lang === 'ptBR' ? 'active' : '' }
+                                />
+                            </Button>
+                            <Button
+                                onClick={() => changeLocale('en')}
+                            >
+                                <FlagIcon
+                                    src={flagEua}
+                                    state={lang === 'en' ? 'active' : '' }
+                                />
+                            </Button>
                     </Footer>
                     </div>
+                <Button
+                    className={'btn-menu'}
+                    onClick={() => handleMenu()}
+                >
+                    <img src={menu}  alt={'menu'}/>
+                </Button>
+                <Menu className={'menu'}>
+                    <h3><Translate value="application.background"/></h3>
+                    <ul className={'change-wallpaper'}>
+                        {
+                            background.map((i, index) => {
+                                return ( <Button
+                                    onClick={() => setWallpaper(index ===  0 || i )}
+                                >
+                                    <img src={i}  alt={'menu'}/>
+                                </Button> )
+                            })
+                        }
+
+
+                    </ul>
+                </Menu>
                 <MaskEdit onClick={() => outSiteEdit()}/>
+
+                <Background style={{backgroundImage:  `url(${wallpaper})` }} />
+
             </Container>
         }
         </ThemeProvider>

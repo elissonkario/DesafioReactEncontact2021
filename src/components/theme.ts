@@ -4,7 +4,7 @@ export const lightTheme = {
     toggleBorder: '#FFF',
     background: '#363537',
     todo: {
-        title: 'rgba(175, 47, 47, 0.15)',
+        title: '#ead7d7',
         container: 'rgba(255, 255, 255, 1)',
         input: () => lightTheme.text,
         placeHolder: '#e6e6e9',
@@ -27,7 +27,7 @@ export const darkTheme = {
     background: 'blue',
     todo: {
         title: 'rgba(97, 97, 97, 0.8)',
-        container: 'rgba(0, 0, 0, 0.17)',
+        container: 'rgba(45,44,46,0.93)',
         input: '#b4b4b4',
         placeHolder: '#4d4d4d',
         item: '#d9d9d9',
@@ -38,6 +38,7 @@ export const darkTheme = {
         borderLinkActive: '#494949',
         shadowFooter: '#292929',
         checkbox: 0.5,
-        inputEdit: '#29282a'
+        inputEdit: '#29282a',
+        footerLink: '#777'
     }
 }

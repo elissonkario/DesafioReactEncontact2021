@@ -69,6 +69,23 @@ export const Button = styled.button<Props>`
   ${props => props.size === 'lg' && css`
     font-size: 18px;
   `}
+  
+  &.btn-menu {
+    position: absolute;
+    z-index: 10;
+    left: 10px;
+    width: 40px;
+    opacity: 0.8;
+
+    -webkit-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+    
+    img {
+      max-width: 100%;
+    }
+  }
 `
 
 export const ButtonRemove = styled.button<Props>`

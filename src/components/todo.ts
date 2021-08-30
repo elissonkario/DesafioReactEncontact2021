@@ -189,7 +189,7 @@ export const TodoFooter = styled.footer`
   display: flex;
   justify-content: space-between;
   font-size: 14px;
-  color: #777;
+  color: ${props => props.theme.todo.footerLink};
   padding: 15px 25px;
   text-align: center;
   margin-top: -1px;

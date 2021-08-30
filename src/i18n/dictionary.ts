@@ -11,7 +11,10 @@ setTranslations({
             clearCompleted: 'Limpar completos',
             itemLeft: 'Restante',
             itemLeft_2: 'Restantes',
-            darkMode: 'Modo escuro'
+            darkMode: 'Modo escuro',
+            instruction_1: 'Clique duas vezes para editar uma tarefa',
+            createdBy: 'Criado por %{name}!',
+            background: 'Fundo'
         },
     },
     en: {
@@ -24,7 +27,10 @@ setTranslations({
             clearCompleted: 'Clear completed',
             itemLeft: 'Item left',
             itemLeft_2: 'Itens left',
-            darkMode: 'Dark mode'
+            darkMode: 'Dark mode',
+            instruction_1: 'Double-click to edit a todo',
+            createdBy: 'Created by %{name}!',
+            background: 'Background'
         },
     }
 })

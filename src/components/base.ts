@@ -25,13 +25,34 @@ export const Container = styled.div`
     padding: 0;
   }
 
+  &.menu-open {    
+    .menu {
+      left: 0;
+    }
+
+    .btn-menu {
+      left: 280px !important;
+    }
+  }
+
 `;
 
 export const Footer = styled.footer`
-  margin-top: 30px;
+  margin-top: 40px;
   text-align: center;
   z-index: 10;
   position: relative;
+  
+  ul {
+    list-style: none;
+    padding-left: 0;
+    li {
+      font-size: 12px;
+      line-height: 20px;
+      color: ${props => props.theme.todo.footerLink};
+      opacity: 0.6;
+    }
+  }
 `
 
 export const FlagIcon = styled.img<{state: string}>`
@@ -50,4 +71,51 @@ export const MaskEdit = styled.div`
   top: 0;
   bottom: 0;
   z-index: 1;
+`
+
+export const Background = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+`
+
+export const Menu = styled.aside`
+  position: absolute;
+  left: -270px;
+  width: 270px;
+  background:  ${props => props.theme.todo.container};
+  top: 0;
+  bottom: 0;
+  z-index: 10;
+
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  
+  .change-wallpaper {
+    padding: 0;
+    width: 80%;
+    display: block;
+    margin: auto;
+    
+    img {
+      display: block;
+      max-width: 100%;
+      border-radius: 10px;
+    }    
+  }
+  
+  h3 {
+    text-align: center;
+  }  
 `
