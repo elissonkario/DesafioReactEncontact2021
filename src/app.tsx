@@ -78,6 +78,18 @@ export default function App() {
         setTodoItens(todoItens.filter((i) => !i.completed ))
     }
 
+    const completedAllItems = () => {
+        if (todoItens.filter(f => !f.completed).length === 0) {
+            setTodoItens(todoItens.map(i => ( { ...i, completed: false }) ));
+        } else {
+            setTodoItens(todoItens.map(i =>
+                i.completed
+                    ? { ...i, completed: true }
+                    : { ...i, completed: !i.completed }
+            ));
+        }
+    }
+
     return (
         <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
             <WrapContainer/>
@@ -88,7 +100,9 @@ export default function App() {
                     <TodoHead>
 
                         <TodoSelectAll
+                            className={todoItens.filter(f => !f.completed).length === 0 ? 'all-items-completed' : ''}
                             isVisible={todoItens.length > 0}
+                            onClick={() => completedAllItems()}
                         />
 
                         <TodoInput

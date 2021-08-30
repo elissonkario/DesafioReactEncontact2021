@@ -4,6 +4,12 @@ interface InputProps {
     value?: any;
 }
 
+
+interface Props {
+    isVisible?: boolean,
+    className?: string
+}
+
 export const TodoWrap = styled.div`
   border-radius: 3px;
   padding: 0.5rem 0 0;
@@ -26,10 +32,16 @@ export const TodoTitle = styled.h1`
   color: ${props => props.theme.todo.title};
 `
 
-export const TodoSelectAll = styled.span<{ isVisible: boolean }>`
+export const TodoSelectAll = styled.span<{ isVisible?: boolean, className?: any }>`
   -webkit-transform: rotate(90deg);
   transform: rotate(90deg);
   visibility: ${props => props.isVisible ? 'visible' : 'hidden'};
+  
+  &.all-items-completed {
+    &:after {
+      color: #737373;
+    }
+  }
 
   &:after {
     content: '❯';
