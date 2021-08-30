@@ -315,13 +315,6 @@ export default function App() {
                                             <Translate value="application.clearCompleted"/>
                                         </Button>
                                     }
-
-                                    <Button
-                                        title={translate("application.darkMode")}
-                                        onClick={() => changeTheme('dark')}
-                                    >
-                                        <img src={darkModeIcon} alt="Dark"/>
-                                    </Button>
                                 </TodoFooter>
                             }
                         </TodoWrap>
@@ -347,6 +340,12 @@ export default function App() {
                                     src={flagEua}
                                     state={lang === 'en' ? 'active' : '' }
                                 />
+                            </Button>
+                            <Button
+                                title={translate("application.darkMode")}
+                                onClick={() => changeTheme('dark')}
+                            >
+                                <img src={darkModeIcon} alt="Dark"/>
                             </Button>
                     </Footer>
                     </div>
